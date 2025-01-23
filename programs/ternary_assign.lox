@@ -1,0 +1,5 @@
+var a = 3;
+print a;
+var b = false ? a = 1 : a = 9;
+print a;
+print b;

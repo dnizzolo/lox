@@ -1,0 +1,6 @@
+var a = 3;
+var result = a == 1 ? "one" : a == 2 ? "two" : "many";
+print result;
+result = true ? false ? 1 : 2 : a = true ? 222 : 444;
+print result;
+print a;
