@@ -1,26 +1,26 @@
 (in-package #:lox.token)
 
 (deftype token-type ()
-  '(member (
-            ;; Single character tokens.
-            :left-paren :right-paren :left-brace :right-brace
-            :comma :dot :minus :plus :semicolon :slash :star
+  '(member
+    ;; Single character tokens.
+    :left-paren :right-paren :left-brace :right-brace
+    :comma :dot :minus :plus :semicolon :slash :star
 
-            ;; One or two character tokens.
-            :bang :bang-equal
-            :equal :equal-equal
-            :greater :greater-equal
-            :less :less-equal
-            :question-mark :colon
+    ;; One or two character tokens.
+    :bang :bang-equal
+    :equal :equal-equal
+    :greater :greater-equal
+    :less :less-equal
+    :question-mark :colon
 
-            ;; Literals.
-            :identifier :string :number
+    ;; Literals.
+    :identifier :string :number
 
-            ;; Keywords.
-            :and :class :else :false :fun :for :if :nil :or
-            :print :return :super :this :true :var :while
+    ;; Keywords.
+    :and :class :else :false :fun :for :if :nil :or
+    :print :return :super :this :true :var :while
 
-            :eof)))
+    :eof))
 
 (defclass token ()
   ((token-type :initarg :token-type :reader token-type)
@@ -34,6 +34,7 @@
    :literal nil))
 
 (defun make-token (token-type lexeme line &optional literal)
+  (check-type token-type token-type)
   (make-instance 'token
                  :token-type token-type
                  :lexeme lexeme
