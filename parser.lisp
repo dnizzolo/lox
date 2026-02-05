@@ -278,7 +278,8 @@
       (parser-error (peek parser) message)))
 
 (defun at-end-p (parser)
-  (eql (token-type (peek parser)) :eof))
+  (or (zerop (length (tokens parser)))
+      (eql (token-type (peek parser)) :eof)))
 
 (defun peek (parser)
   (aref (tokens parser) (current parser)))
