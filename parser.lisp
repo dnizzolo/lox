@@ -231,8 +231,10 @@
   (let ((arguments (make-array 16 :adjustable t :fill-pointer 0)))
     (unless (check parser :right-paren)
       (loop
-        (when (>= (length arguments) 255)
-          (parser-error (peek parser) "Can't have more than 255 arguments"))
+        (when (>= (length arguments) +maximum-parameters+)
+          (parser-error (peek parser)
+                        (format nil "Can't have more than ~a arguments"
+                                +maximum-parameters+)))
         (vector-push-extend (%expression parser) arguments)
         (unless (match parser :comma) (return))))
     (ast:make-call callee (consume parser :right-paren "Expect ')' after arguments")
@@ -290,11 +292,10 @@
       (incf (current parser)))))
 
 (defun check (parser token-type)
-  (and (not (at-end-p parser))
-       (eql (token-type (peek parser)) token-type)))
+  (unless (at-end-p parser)
+    (eql (token-type (peek parser)) token-type)))
 
 (defun match (parser &rest expected)
   (dolist (item expected)
     (when (check parser item)
-      (advance parser)
-      (return t))))
+      (return (advance parser)))))
