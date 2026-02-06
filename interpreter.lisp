@@ -38,7 +38,7 @@
                  (env:make-environment (environment interpreter))))
 
 (defmethod execute ((interpreter interpreter) (statement ast:class))
-  (with-accessors ((environment environment)) interpreter
+  (with-slots (environment) interpreter
     (let ((superclass
             (when (ast:superclass statement)
               (let ((superclass (evaluate interpreter (ast:superclass statement))))
@@ -131,7 +131,7 @@
       (set-instance-property object (ast:name expression) value))))
 
 (defmethod evaluate ((interpreter interpreter) (expression ast:super))
-  (with-accessors ((environment environment) (locals locals)) interpreter
+  (with-slots (environment locals) interpreter
     (let* ((distance (gethash expression locals))
            (superclass (env:get-at environment distance "super"))
            (object (env:get-at environment (1- distance) "this"))

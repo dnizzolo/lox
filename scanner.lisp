@@ -114,7 +114,7 @@
       (char (source scanner) (current scanner))))
 
 (defun peek-next (scanner)
-  (with-accessors ((source source) (current current)) scanner
+  (with-slots (source current) scanner
     (if (>= (1+ current) (length source))
         #\Nul
         (char source (1+ current)))))
@@ -124,7 +124,7 @@
     (incf (current scanner))))
 
 (defun match (scanner expected)
-  (with-accessors ((source source) (current current)) scanner
+  (with-slots (source current) scanner
     (cond ((at-end-p scanner) nil)
           ((char/= expected (char source current)) nil)
           (t (incf current)))))

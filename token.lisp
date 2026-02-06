@@ -46,4 +46,5 @@
 
 (defmethod print-object ((object token) stream)
   (print-unreadable-object (object stream :type t :identity t)
-    (format stream "~a ~a ~a" (token-type object) (lexeme object) (literal object))))
+    (with-slots (token-type lexeme line literal) object
+      (format stream "~s ~s ~a ~a" token-type lexeme line literal))))
